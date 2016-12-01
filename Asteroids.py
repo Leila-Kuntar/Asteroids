@@ -1,4 +1,4 @@
-# Spaceship by Leila Kuntar
+# Asteroids by Leila Kuntar
 # You can try it on
 # http://www.codeskulptor.org/#user42_mmOPVj19hhhNcoj.py
 
