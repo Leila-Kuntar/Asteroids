@@ -204,7 +204,7 @@ class Sprite:
         return  (self.bExplosion == False) and (vector_len(self.pos, other_sprite.get_pos()) <= self.radius) 
      
 def draw(canvas):
-    global time, g_bonus, g_score, g_lives, bInGame, g_rocks_count, t, bLastExplosion, g_best_score
+    global time, g_bonus, g_score, g_lives, bInGame, g_rocks_count, t, bLastExplosion, g_best_score, g_max_rocks_count
  
     # animate background
     time += 1
@@ -240,8 +240,7 @@ def draw(canvas):
             for a_rock in a_rock_set:
                 if a_rock.collide(my_ship):
                     g_lives -= 1
-                    if g_lives <= 0:
-                        g_lives = 0 
+                    if g_lives == 0:
                         finish_game() 
                         a_rock.start_explosion(True)
                         break 
@@ -256,6 +255,7 @@ def draw(canvas):
                             g_best_score = g_score
                        if g_score >= g_bonus:
                             g_lives += 1
+                            g_max_rocks_count += 5
                             g_bonus += g_bonus
     else:
         canvas.draw_image(splash_image, splash_info.get_center(), splash_info.get_size(), 
@@ -263,8 +263,8 @@ def draw(canvas):
         
 # timer handler that spawns a rock    
 def rock_spawner():   
-    global a_rock_set, g_rocks_count 
-    if bInGame and (g_rocks_count<13):
+    global a_rock_set, g_rocks_count, g_max_rocks_count 
+    if bInGame and (g_rocks_count<g_max_rocks_count):
         pos = [random.randrange(0, width), random.randrange(0, height)]
         horizontal_vel = vertical_vel = 0 
         while (horizontal_vel == 0):
@@ -315,7 +315,7 @@ def finish_game():
     missile_sound.rewind()
         
 def start_game():
-    global g_bonus, a_rock_set, a_missile_set, g_lives, g_score, bInGame, g_rocks_count, my_ship, t, bLastExplosion
+    global g_bonus, a_rock_set, a_missile_set, g_lives, g_score, bInGame, g_rocks_count, my_ship, t, bLastExplosion, g_max_rocks_count
     if bInGame == False and bLastExplosion == False:
         # initialize ship and sprite's sets
         a_rock_set = set([])
@@ -325,6 +325,7 @@ def start_game():
         g_score = 0 
         g_bonus = 100 
         g_rocks_count = 0
+        g_max_rocks_count = 15
         bLastExplosion = False
         rock_spawner()
         bInGame = True 
@@ -340,6 +341,7 @@ g_lives = 3
 g_score = 0 
 g_best_score = 0 
 g_rocks_count = 0 
+g_max_rocks_count = 0
 # register handlers
 frame.set_draw_handler(draw)
 frame.set_keydown_handler(keydown)
