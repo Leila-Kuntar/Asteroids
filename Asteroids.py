@@ -1,6 +1,6 @@
 # Asteroids by Leila Kuntar
 # You can try it on
-# http://www.codeskulptor.org/#user42_mmOPVj19hhhNcoj.py
+# http://www.codeskulptor.org/#user42_OuOMkvK6Tv_0.py
 
 import simplegui
 import math
